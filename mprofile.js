@@ -1,4 +1,8 @@
-const native = require("native");
+"use native"
+
+const native = require("./jml_native");
+const mlibrary = require("./mlibrary");
+const mrule = require("./mrule");
 
 function n(t) {
     if (!t)
@@ -23,9 +27,9 @@ function arg_parse(arr) {
 
             if (allow && value) {
                 if (Array.isArray(value))
-                    strlist.extend(value)
+                    strlist.push(...value)
                 else
-                    strlist.append(value)
+                    strlist.push(value)
             }
         }
         else
@@ -36,7 +40,8 @@ function arg_parse(arr) {
 }
 
 class profile {
-    constructor(info) {
+    constructor(minecraft, info) {
+        this.minecraft = minecraft;
         this.id = ""
         this.assetId = ""
         this.assetUrl = ""
@@ -47,7 +52,7 @@ class profile {
         this.clientDownloadUrl = ""
         this.clientHash = ""
         this.parent_profile_id = ""
-        this.is_inherited = False
+        this.is_inherited = false;
         this.jar = ""
         this.mainclass = ""
         this.minecraftArguments = ""
@@ -63,11 +68,11 @@ class profile {
         else
             json = await native.fileread(info.path);
 
-        return this.parseFromJson(json);
+        return await this.parseFromJson(json);
     }
 
-    parseFromJson(content) {
-        d = JSON.parse(content)
+    async parseFromJson(content) {
+        var d = JSON.parse(content)
 
         this.id = d["id"]
 
@@ -87,7 +92,7 @@ class profile {
             }
         }
 
-        this.libraries = mlibrary.parselist(d["libraries"]);
+        this.libraries = mlibrary.parselist(this.minecraft, d["libraries"]);
         this.mainclass = n(d["mainClass"]);
 
         this.minecraftArguments = d["minecraftArguments"];
@@ -104,15 +109,15 @@ class profile {
 
         var inherits = d["inheritsFrom"]
         if (inherits) {
-            this.is_inherited = True
-            this.parent_profile_id = inherits
+            this.is_inherited = true;
+            this.parent_profile_id = inherits;
         }
         else
             this.jar = this.id
 
-        var profilePath = natvie.join(minecraft.version, this.id)
+        var profilePath = native.join(this.minecraft.version, this.id)
 
-        if (!native.checkDirExists(profilePath)) {
+        if (!await native.checkDirExists(profilePath)) {
             await native.mkdir(profilePath);
 
             var p = native.join(profilePath, this.id + ".json");
@@ -146,6 +151,8 @@ function inhert(parent, child) {
     if (!child.minecraftArguments)
         child.minecraftArguments = parent.minecraftArguments
 
+    child.jar = parent.jar;
+
     if (parent.libraries)
         if (child.libraries)
             child.libraries.push(...parent.libraries)
@@ -165,14 +172,15 @@ function inhert(parent, child) {
             child.jvm_arguments = parent.jvm_arguments
 }
 
-function get_profile(infos, version) {
+async function get_profile(minecraft, infos, version) {
     var start_profile = null;
 
     for (prop in infos) {
         var item = infos[prop];
 
         if (item.name == version) {
-            start_profile = new profile(item);
+            start_profile = new profile(minecraft);
+            await start_profile.parse(item);
             break;
         }
     }
@@ -181,9 +189,14 @@ function get_profile(infos, version) {
         throw new Error("cannot find profile named " + version)
 
     if (start_profile.is_inherited) {
-        parent_profile = get_profile(infos, start_profile.parent_profile_id)
+        parent_profile = await get_profile(minecraft, infos, start_profile.parent_profile_id)
         inhert(parent_profile, start_profile)
     }
 
     return start_profile
+}
+
+module.exports = {
+    get_profile: get_profile,
+    profile: profile
 }
