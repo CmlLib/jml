@@ -1,0 +1,28 @@
+{
+    "name": "minecraft-jml",
+    "version": "0.0.1",
+    "description": "minecraft launcher for node js",
+    "keywords": [
+        "minecraft",
+        "launcher",
+        "game",
+        "forge",
+        "mc"
+    ],
+    "homepage": "https://github.com/AlphaBs/jml",
+    "license": "MIT",
+    "author": {
+        "name": "ksi123456ab",
+        "email": "ksi123456ab@naver.com",
+        "url": "https://github.com/AlphaBs"
+    },
+    "main": "lib/jml.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AlphaBs/jml.git"
+    },
+    "dependencies": {
+        "requests": "^0.3.0",
+        "extract-zip": "^1.6.7"
+    }
+}

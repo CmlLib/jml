@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "프로그램 시작",
             "skipFiles": ["<node_internals>/**"],
-            "program": "${workspaceFolder}\\jml_sample.js"
+            "program": "${workspaceFolder}\\npmtest\\test.js"
         }
     ]
 }

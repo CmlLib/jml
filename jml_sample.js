@@ -1,4 +1,5 @@
-const jml = require("./jml");
+const jml = require("./lib/jml");
+//const jml = require("minecraft-jml");
 
 async function init() {
     var p = "./game_dir"
