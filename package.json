@@ -1,13 +1,14 @@
 {
     "name": "minecraft-jml",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "minecraft launcher for node js",
     "keywords": [
         "minecraft",
         "launcher",
         "game",
         "forge",
-        "mc"
+        "mc",
+        "minecraft-launcher"
     ],
     "homepage": "https://github.com/AlphaBs/jml",
     "license": "MIT",
