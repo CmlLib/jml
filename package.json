@@ -22,7 +22,7 @@
         "url": "https://github.com/AlphaBs/jml.git"
     },
     "dependencies": {
-        "requests": "^0.3.0",
-        "extract-zip": "^1.6.7"
+        "node-fetch": "^2.6.0",
+        "unzipper": "^0.10.10"
     }
 }
