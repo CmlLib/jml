@@ -8,7 +8,8 @@ async function init() {
 
     console.log("initialized in " + launcher.getGamePath());
 
-    launcher.downloadEventHandler = function (kind, name, max, current) {
+    launcher.downloadEventHandler = function (kind, name, max, current) { // log progress
+        // kind : forge, library, resource, index, minecraft, mod
         console.log(`${kind} - ${name} (${current} / ${max})`);
     };
 
@@ -25,9 +26,18 @@ async function init() {
         await launcher.updateProfiles();
     }
 
+    await launcher.downloadMods([ // download mods
+        {
+            file: "test123",
+            url: "https://www.naver.com",
+            sha1: "sha1sha1hash"
+        },
+        launcher.getCustomForgeMod("testmod", "https://google.com", "SHA1_HASH")
+    ]);
+
     console.log("start " + versionname);
 
-    var arg = await launcher.launch(versionname, {
+    var arg = await launcher.launch(versionname, { // download client
         xmx: 4096,
         server_ip: "mc.hypixel.net",
         session: {
