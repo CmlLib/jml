@@ -2,7 +2,7 @@ const jml = require("./lib/jml.js");
 const { spawn } = require('child_process');
 
 async function init() {
-    var p = "./game dir"
+    var p = "C:\\programming\\git\\MRS-electronjs-launcher\\instances\\Minimalism"
 
     var launcher = new jml.jml();
     await launcher.initialize(p);
