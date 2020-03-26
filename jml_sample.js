@@ -1,7 +1,8 @@
 const jml = require("./lib/jml.js");
+const { spawn } = require('child_process');
 
 async function init() {
-    var p = "./game_dir"
+    var p = "./game dir"
 
     var launcher = new jml.jml();
     await launcher.initialize(p);
@@ -50,6 +51,14 @@ async function init() {
     });
 
     console.log(arg);
+
+    const inst = spawn("java", arg, { cwd: launcher.getGamePath() });
+    inst.stdout.on('data', function (data) {
+        console.log(data + "");
+    });
+    inst.stderr.on('data', function (data) {
+        console.log(data + "");
+    });
 
     console.log("end");
 }
