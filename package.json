@@ -23,6 +23,7 @@
         "url": "https://github.com/AlphaBs/jml.git"
     },
     "dependencies": {
+        "lzma-native": "^6.0.0",
         "node-fetch": "^2.6.0",
         "unzipper": "^0.10.10"
     },

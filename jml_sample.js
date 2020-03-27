@@ -14,6 +14,10 @@ async function init() {
         console.log(`${kind} - ${name} (${current} / ${max})`);
     };
 
+    console.log("check jre");
+    var jre = await launcher.checkJre();
+
+    //var versionname = "1.12.2";
     var mcversion = "1.12.2";
     var forgeversion = "14.23.5.2847";
     var versionname = launcher.getVersionName(mcversion, forgeversion);
@@ -23,11 +27,11 @@ async function init() {
     if (!launcher.profiles.some(x => x.name === versionname)) { // forge not installed
         console.log("install forge : " + versionname);
 
-        await launcher.downloadForge(mcversion, forgeversion);
+        await launcher.checkForge(mcversion, forgeversion);
         await launcher.updateProfiles();
     }
 
-    await launcher.downloadMods([ // download mods
+    await launcher.checkMods([ // download mods
         {
             file: "test123",
             url: "https://www.naver.com",
@@ -40,7 +44,7 @@ async function init() {
 
     var arg = await launcher.launch(versionname, { // download client
         xmx: 4096,
-        server_ip: "mc.hypixel.net",
+        server_ip: "",
         session: {
             username: "test123",
             access_token: "token123",
@@ -52,7 +56,12 @@ async function init() {
 
     console.log(arg);
 
-    const inst = spawn("java", arg, { cwd: launcher.getGamePath() });
+    const inst = spawn(jre, arg, { 
+        cwd: launcher.getGamePath(),
+        detached: true
+    });
+    inst.unref();
+
     inst.stdout.on('data', function (data) {
         console.log(data + "");
     });
