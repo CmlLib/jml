@@ -1,6 +1,6 @@
 {
     "name": "minecraft-jml",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "minecraft launcher for node js",
     "keywords": [
         "minecraft",
@@ -23,6 +23,7 @@
         "url": "https://github.com/AlphaBs/jml.git"
     },
     "dependencies": {
+        "lzma-native": "^6.0.0",
         "node-fetch": "^2.6.0",
         "unzipper": "^0.10.10"
     },
