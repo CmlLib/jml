@@ -1,6 +1,6 @@
 {
     "name": "minecraft-jml",
-    "version": "0.2.0",
+    "version": "0.2.3",
     "description": "minecraft launcher for node js",
     "keywords": [
         "minecraft",
