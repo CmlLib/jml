@@ -1,8 +1,7 @@
 const jml = require("./lib/jml.js");
-const { spawn } = require('child_process');
 
 async function init() {
-    var p = "./game_dir"
+    var p = require('path').resolve("./game_dir")
 
     var launcher = new jml.jml();
     await launcher.initialize(p);
@@ -42,7 +41,8 @@ async function init() {
 
     console.log("start " + versionname);
 
-    var arg = await launcher.launch(versionname, { // download client
+    var inst = await launcher.start(versionname, { // download client and start it
+        jre: jre,
         xmx: 4096,
         server_ip: "",
         session: {
@@ -54,12 +54,6 @@ async function init() {
         screen_height: 900
     });
 
-    console.log(arg);
-
-    const inst = spawn(jre, arg, { 
-        cwd: launcher.getGamePath(),
-        detached: true
-    });
     inst.unref();
 
     inst.stdout.on('data', function (data) {
